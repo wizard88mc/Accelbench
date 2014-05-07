@@ -1,0 +1,270 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity" >
+
+    <LinearLayout
+        android:id="@+id/classifierPanel"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/btnStartClassifier"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onBtnStartClassifying"
+            android:text="Start classifier" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/lblClassifierOutput"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Classifier output: no output yet"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/lblNumSteps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="No step detected"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/lblSamplingRate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Sampling rate: not detected yet"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Accelerometer position"
+        android:textStyle="bold" />
+
+    <RadioGroup
+        android:id="@+id/radioAccelerometerPosition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:baselineAligned="false"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/radioManoMode"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:checked="true"
+            android:text="In mano" />
+
+        <RadioButton
+            android:id="@+id/radioTascaMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:checked="false"
+            android:text="Tasca" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_horizontal"
+            android:text="Min sampling delta"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/minDiff"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ems="10"
+            android:hint="0"
+            android:inputType="numberDecimal"
+            android:text="0"
+            android:textAlignment="center" >
+
+            <requestFocus />
+        </EditText>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/stairsContainer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/stairs"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/btnStartSampling"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:enabled="true"
+                android:onClick="onBtnStartSampling"
+                android:text="Inizio scale" />
+
+            <Button
+                android:id="@+id/btnStopSampling"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:onClick="onBtnStopSampling"
+                android:text="Fine scale" />
+        </LinearLayout>
+
+        <RadioGroup
+            android:id="@+id/radioStairsType"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/radioUpstairs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="true"
+                android:text="Scale su" />
+
+            <RadioButton
+                android:id="@+id/radioDownstairs"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:checked="false"
+                android:text="Scale giù" />
+        </RadioGroup>
+        
+        <TextView 
+            android:id="@+id/deltaTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/nonstairsWrapper"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp" >
+
+        <Button
+            android:id="@+id/btnStartSamplingAltro"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:enabled="true"
+            android:onClick="onBtnStartSamplingAltro"
+            android:text="Inizio altro" />
+
+        <Button
+            android:id="@+id/btnStopSamplingAltro"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:enabled="false"
+            android:onClick="onBtnStopSamplingAltro"
+            android:text="Fine altro" />
+
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/radioSamplingGroup"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:baselineAligned="false"
+        android:gravity="bottom"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/radioSamplingNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/radioSamplingGame"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:checked="false"
+            android:enabled="false"
+            android:text="65ms" />
+
+        <RadioButton
+            android:id="@+id/radioSamplingUI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignTop="@+id/radioSamplingNormal"
+            android:layout_gravity="left|center_vertical"
+            android:checked="false"
+            android:enabled="false"
+            android:text="32ms" />
+        
+        <RadioButton
+            android:id="@+id/radioSamplingGame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="right|center_vertical"
+            android:checked="false"
+            android:enabled="false"
+            android:text="16ms" />
+
+        <RadioButton
+            android:id="@+id/radioSamplingFastest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignTop="@+id/radioSamplingNormal"
+            android:layout_gravity="left|center_vertical"
+            android:checked="true"
+            android:text="8ms" />
+            <!-- android:checked="false"
+            android:enabled="false" -->
+
+        
+            <!-- android:checked="false"
+            android:enabled="false" -->
+            
+    </RadioGroup>
+
+</LinearLayout>
