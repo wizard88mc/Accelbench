@@ -13,6 +13,8 @@ import android.content.IntentFilter;
 import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,7 +41,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
     public static final String AppName = "AccelBench";
     public static final String SAMPLING_TYPE = "ACTION_SAMPLING";
     public static final String SAMPLING_TYPE_STAIR_UPSTAIRS = "STAIR_UPSTAIRS";
@@ -52,12 +54,9 @@ public class MainActivity extends Activity {
     private double detectedSamplingRate=0;
     private double minimumSamplingRate=13;
     private Intent backgroundStoreSampler;
-    private Intent backgroundClassifySampler;
-    private Intent backgroundSamplingRateDetector;
     private IntentFilter classifierFilter =new IntentFilter(ClassifierCircularBuffer.CLASSIFIER_ACTION);
     private IntentFilter samplingRateDetectorFilter=new IntentFilter(AccelerometerSamplingRateDetect.SAMPLING_RATE_ACTION);
     private BroadcastReceiver classifierReceiver=new ClassifierReceiver();
-    private BroadcastReceiver sampleRateDetectorReceiver=new SamplingRateDetectorReceiver();
     private int num_steps=0;
 
     public class ClassifierReceiver extends BroadcastReceiver {
@@ -71,39 +70,6 @@ public class MainActivity extends Activity {
                 ((TextView) findViewById(R.id.lblNumSteps)).setText(Integer.toString(num_steps));
             }
             ((TextView) findViewById(R.id.lblClassifierOutput)).setText(result);
-        }
-    }
-
-    public class SamplingRateDetectorReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            detectedSamplingRate=intent.getExtras().getDouble(AccelerometerSamplingRateDetect.SAMPLING_RATE);
-            Log.i(MainActivity.AppName, Double.toString(detectedSamplingRate));
-            if (detectedSamplingRate>=minimumSamplingRate) { // sampling rate high enough
-                ((TextView) findViewById(R.id.lblSamplingRate)).setText(detectedSamplingRate + " Hz");
-                backgroundClassifySampler.putExtra(AccelerometerSamplingRateDetect.SAMPLING_RATE, detectedSamplingRate);
-                backgroundClassifySampler.putExtra(SAMPLING_DELAY, backgroundSamplingRateDetector.getExtras().getInt(MainActivity.SAMPLING_DELAY));
-                unregisterReceiver(this);
-                stopService(backgroundSamplingRateDetector);
-            } else { // sampling rate not high enough: try to decrease the sampling delay
-                if (backgroundSamplingRateDetector.getExtras().getInt(MainActivity.SAMPLING_DELAY)!=SensorManager.SENSOR_DELAY_UI) {
-                    Log.w(MainActivity.AppName, "Sampling rate not high enough: trying decreasing the sampling delay");
-                    stopService(backgroundSamplingRateDetector);
-                    backgroundSamplingRateDetector.putExtra(SAMPLING_DELAY, SensorManager.SENSOR_DELAY_UI);
-                    startService(backgroundSamplingRateDetector);
-                } else { // unable to determine a sampling rate high enough for our purposes: stop
-                    Log.e(MainActivity.AppName, "Sampling rate not high enough for this application");
-                    unregisterReceiver(this);
-                    stopService(backgroundSamplingRateDetector);
-                    ((TextView) findViewById(R.id.lblSamplingRate)).setText("TOO LOW: " + detectedSamplingRate + " Hz");
-                    AlertDialog.Builder alert = new AlertDialog.Builder(getApplicationContext());
-                    alert.setTitle("Sampling rate not high enough");
-                    alert.setMessage("Your accelerometer is not fast enough for this application. Make sure to use at least "+minimumSamplingRate+" Hz");
-                    alert.show();
-//                    Toast.makeText(getApplicationContext(), "Your accelerometer is not fast enough for this application (detected a frequency of "+detectedSamplingRate+"Hz)", Toast.LENGTH_LONG).show();
-                }
-            }
         }
     }
 
@@ -140,9 +106,8 @@ public class MainActivity extends Activity {
         ((Button) findViewById(R.id.btnStartSampling)).setEnabled(true); // enable start button
     }
 
-    public void onBtnStartSampling(View v) {
-        ((Button) findViewById(R.id.btnStartSamplingAltro)).setEnabled(false);
-        v.setEnabled(false); // disable start button
+    public void onBtnStartSampling() {
+        
         ((Button) findViewById(R.id.btnStopSampling)).setEnabled(true); // enable stop button
         int selectedId = ((RadioGroup) findViewById(R.id.radioStairsType)).getCheckedRadioButtonId();
         switch(selectedId) {
@@ -173,64 +138,7 @@ public class MainActivity extends Activity {
         samplingEnabled=true;
     }
 
-    public void startClassifyService() {
-//        int selectedId = ((RadioGroup) findViewById(R.id.radioSamplingGroup)).getCheckedRadioButtonId();
-//        switch(selectedId) {
-//            case R.id.radioSamplingFastest: backgroundClassifySampler.putExtra(SAMPLING_DELAY, SensorManager.SENSOR_DELAY_FASTEST); break;
-//            case R.id.radioSamplingUI: backgroundClassifySampler.putExtra(SAMPLING_DELAY, SensorManager.SENSOR_DELAY_UI); break;
-//            case R.id.radioSamplingGame: backgroundClassifySampler.putExtra(SAMPLING_DELAY, SensorManager.SENSOR_DELAY_GAME); break;
-//            default: backgroundClassifySampler.putExtra(SAMPLING_DELAY, SensorManager.SENSOR_DELAY_NORMAL);
-//        }
-        startService(backgroundClassifySampler); // start background service
-        registerReceiver(classifierReceiver, classifierFilter);
-        num_steps=0;
-        ((TextView) findViewById(R.id.lblNumSteps)).setText(Integer.toString(num_steps));
-        samplingEnabled=true;
-    }
-
-    public void onBtnStartClassifying(View v) {
-        if (detectedSamplingRate==0 || detectedSamplingRate<minimumSamplingRate) {
-            Toast.makeText(getApplicationContext(), "Accelerometer calibration is not ready yet. Please wait", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (samplingEnabled==false) {
-            startClassifyService();
-            ((Button)v).setText("Stop classifier");
-        } else {
-            stopClassify();
-            samplingEnabled=false;
-        }
-    }
-
-    public void stopClassify() {
-        stopService(backgroundClassifySampler); // stop background server
-        samplingEnabled=false;
-        ((Button)findViewById(R.id.btnStartClassifier)).setText("Start classifier");
-        unregisterReceiver(classifierReceiver);
-        ((TextView) findViewById(R.id.lblClassifierOutput)).setText("Classifier output");
-    }
-
-    public void onBtnStopClassify(View v) {
-        stopService(backgroundClassifySampler); // stop background server
-        samplingEnabled=false;
-        v.setEnabled(false); // disable stop button
-    }
-
     private void stopAllServices() {
-        try {
-            stopService(backgroundSamplingRateDetector);
-            unregisterReceiver(sampleRateDetectorReceiver);
-        } catch (Exception e) {
-            Log.e(MainActivity.AppName, "Unable to stop sampling rate detector service");
-            e.printStackTrace();
-        }
-        try {
-            stopService(backgroundClassifySampler);
-            unregisterReceiver(classifierReceiver);
-        } catch (Exception e) {
-            Log.e(MainActivity.AppName, "Unable to stop classifier service");
-            e.printStackTrace();
-        }
         try {
             stopService(backgroundStoreSampler);
         } catch (Exception e) {
@@ -263,13 +171,11 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main_activity);
         backgroundStoreSampler = new Intent(this, SamplingStoreService.class); // instance (without starting) background sampler
-        backgroundClassifySampler = new Intent(this, SamplingClassifyService.class); // instance (without starting) background classifier
-        backgroundSamplingRateDetector = new Intent(this, SamplingRateDetectorService.class); // instance (without starting) background sampling rate detected
-        backgroundSamplingRateDetector.putExtra(SAMPLING_DELAY, SensorManager.SENSOR_DELAY_NORMAL);
-        registerReceiver(sampleRateDetectorReceiver, samplingRateDetectorFilter);
-        startService(backgroundSamplingRateDetector); // start background service
+        
+        ViewPager pager = (ViewPager)findViewById(R.id.pager);
+        pager.setAdapter(new MainFragment(getSupportFragmentManager()));
     }
 
     @Override
