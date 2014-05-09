@@ -43,7 +43,6 @@ public class FragmentTest extends Fragment implements View.OnClickListener {
 		return result;
 	}
 	
-	
 	@Override
 	public void onClick(View v) {
 		

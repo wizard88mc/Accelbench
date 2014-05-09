@@ -49,15 +49,13 @@ public class MainActivity extends FragmentActivity {
     public static final String SAMPLING_TYPE_NON_STAIR = "NON_STAIR";
     public static final String SAMPLING_DELAY="DELAY";
 	public static final String	ACCELEROMETER_POSITION_ACTION	= "org.unipd.nbeghin.accelerometer.position";
-	public static final String	ACCELEROMETER_MIN_DIFF	= "org.unipd.nbeghin.accelerometer.min_diff";
     private boolean samplingEnabled=false;
-    private double detectedSamplingRate=0;
-    private double minimumSamplingRate=13;
     private Intent backgroundStoreSampler;
     private IntentFilter classifierFilter =new IntentFilter(ClassifierCircularBuffer.CLASSIFIER_ACTION);
     private IntentFilter samplingRateDetectorFilter=new IntentFilter(AccelerometerSamplingRateDetect.SAMPLING_RATE_ACTION);
-    private BroadcastReceiver classifierReceiver=new ClassifierReceiver();
     private int num_steps=0;
+    
+    
 
     public class ClassifierReceiver extends BroadcastReceiver {
 
@@ -74,66 +72,30 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void onBtnStartSamplingAltro(View v) {
-        ((Button) findViewById(R.id.btnStartSampling)).setEnabled(false);
-        v.setEnabled(false); // disable start button
-        ((Button) findViewById(R.id.btnStopSamplingAltro)).setEnabled(true); // enable stop button
-        backgroundStoreSampler.putExtra(SAMPLING_TYPE, SAMPLING_TYPE_NON_STAIR);
-        setGeneralSamplingParams();
+        
         startSamplingService();
     }
-
-    private void setGeneralSamplingParams() {
-    	// accelerometer position
-        int selectedId = ((RadioGroup) findViewById(R.id.radioAccelerometerPosition)).getCheckedRadioButtonId();
-        switch(selectedId) {
-        	case R.id.radioManoMode: backgroundStoreSampler.putExtra(ACCELEROMETER_POSITION_ACTION, "MANO"); break;
-        	case R.id.radioTascaMode: backgroundStoreSampler.putExtra(ACCELEROMETER_POSITION_ACTION, "TASCA"); break;
-        }
-        // accelerometer min diff
-        try {
-        	float minDiff=Float.parseFloat(((EditText) findViewById(R.id.minDiff)).getText().toString());
-        	backgroundStoreSampler.putExtra(ACCELEROMETER_MIN_DIFF, minDiff);
-        } catch(Exception e) {
-        	Log.e(AppName, "Unable to set min diff: "+e.getMessage());
-        }
-    }
     
-    public void onBtnStopSamplingAltro(View v) {
+    public void onBtnStopSamplingAltro() {
         stopService(backgroundStoreSampler); // stop background server
         samplingEnabled=false;
-        v.setEnabled(false); // disable stop button
-        ((Button) findViewById(R.id.btnStartSamplingAltro)).setEnabled(true); // enable start button
-        ((Button) findViewById(R.id.btnStartSampling)).setEnabled(true); // enable start button
+        
     }
 
     public void onBtnStartSampling() {
         
-        ((Button) findViewById(R.id.btnStopSampling)).setEnabled(true); // enable stop button
-        int selectedId = ((RadioGroup) findViewById(R.id.radioStairsType)).getCheckedRadioButtonId();
-        switch(selectedId) {
-            case R.id.radioDownstairs: backgroundStoreSampler.putExtra(SAMPLING_TYPE, SAMPLING_TYPE_STAIR_DOWNSTAIRS); break;
-            case R.id.radioUpstairs: backgroundStoreSampler.putExtra(SAMPLING_TYPE, SAMPLING_TYPE_STAIR_UPSTAIRS); break;
-        }
-        setGeneralSamplingParams();
         startSamplingService();
     }
 
-    public void onBtnStopSampling(View v) {
+    public void onBtnStopSampling() {
         stopService(backgroundStoreSampler); // stop background server
         samplingEnabled=false;
-        v.setEnabled(false); // disable stop button
-        ((Button) findViewById(R.id.btnStartSamplingAltro)).setEnabled(true); // enable start button
-        ((Button) findViewById(R.id.btnStartSampling)).setEnabled(true); // enable start button
+        
     }
 
     public void startSamplingService() {
-        int selectedId = ((RadioGroup) findViewById(R.id.radioSamplingGroup)).getCheckedRadioButtonId();
-        switch(selectedId) {
-            case R.id.radioSamplingFastest: backgroundStoreSampler.putExtra(SAMPLING_DELAY, 8000); break;
-            case R.id.radioSamplingGame: backgroundStoreSampler.putExtra(SAMPLING_DELAY, 16000); break;
-            case R.id.radioSamplingUI: backgroundStoreSampler.putExtra(SAMPLING_DELAY, 32000); break;
-            default: backgroundStoreSampler.putExtra(SAMPLING_DELAY, 65000);
-        }
+        
+        backgroundStoreSampler.putExtra(SAMPLING_DELAY, 8000);
         startService(backgroundStoreSampler); // start background service
         samplingEnabled=true;
     }

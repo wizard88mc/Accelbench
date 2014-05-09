@@ -23,18 +23,22 @@ public class DbAdapter {
         // Database fields
         private static String DATABASE_TABLE;
         private static String DATABASE_TABLE_LINEAR;
+        private static String DATABASE_TABLE_TEST;
+        private static String DATABASE_TABLE_LINEAR_TEST;
+        public static final String KEY_timestamp = "timestamp";
         public static final String KEY_x = "x";
         public static final String KEY_y = "y";
         public static final String KEY_z = "z";
         public static final String KEY_rotationX = "rotationX";
         public static final String KEY_rotationY = "rotationY";
         public static final String KEY_rotationZ = "rotationZ";
-        public static final String KEY_timestamp = "timestamp";
-        public static final String KEY_action = "action";
-        public static final String KEY_delay = "delay";
-        public static final String KEY_trunk = "trunk";
+        public static final String KEY_sex = "sex";
+        public static final String KEY_age = "age";
+        public static final String KEY_height = "height";
+        public static final String KEY_shoes = "shoes";
         public static final String KEY_mode = "mode";
-        public static final String KEY_mindiff = "mindiff";
+        public static final String KEY_action = "action";
+        public static final String KEY_trunk = "trunk";
         
         public DbAdapter(Context context) {
             this.context = context;
@@ -45,6 +49,8 @@ public class DbAdapter {
             database = dbHelper.getWritableDatabase();
             DATABASE_TABLE = DatabaseHelper.getDatabaseTable();
             DATABASE_TABLE_LINEAR = DatabaseHelper.getDatabaseTableLinear();
+            DATABASE_TABLE_TEST = DatabaseHelper.getDatabaseTableTest();
+            DATABASE_TABLE_LINEAR_TEST = DatabaseHelper.getDatabaseTableLinearTest();
             this.getNewTrunkIdAccelerometer();
             this.getNewTrunkIdLinear();
             return this;
@@ -59,7 +65,7 @@ public class DbAdapter {
         }
 
         private ContentValues createContentValues(float x, float y, float z, float xRotation, float yRotation, float zRotation, 
-        		long timestamp, String action, int delay, int trunk, String mode, float minDiff) {
+        		long timestamp, String action, int trunk, String mode, float minDiff) {
             ContentValues values = new ContentValues();
             values.put(KEY_x, x);
             values.put(KEY_y, y);
@@ -69,10 +75,8 @@ public class DbAdapter {
             values.put(KEY_rotationZ, zRotation);
             values.put(KEY_timestamp, timestamp);
             values.put(KEY_action, action);
-            values.put(KEY_delay, delay);
             values.put(KEY_trunk, trunk);
             values.put(KEY_mode, mode);
-            values.put(KEY_mindiff, minDiff);
             return values;
         }
 

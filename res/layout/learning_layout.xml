@@ -161,7 +161,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:enabled="true"
-                android:onClick="onBtnStartSampling"
                 android:text="Inizio scale" />
 
             <Button
@@ -170,7 +169,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:enabled="false"
-                android:onClick="onBtnStopSampling"
                 android:text="Fine scale" />
         </LinearLayout>
 
@@ -217,7 +215,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:enabled="true"
-            android:onClick="onBtnStartSamplingAltro"
             android:text="Inizio altro" />
 
         <Button
@@ -226,7 +223,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:enabled="false"
-            android:onClick="onBtnStopSamplingAltro"
             android:text="Fine altro" />
 
     </LinearLayout>
