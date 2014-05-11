@@ -64,19 +64,25 @@ public class DbAdapter {
             return database.getPath();
         }
 
-        private ContentValues createContentValues(float x, float y, float z, float xRotation, float yRotation, float zRotation, 
-        		long timestamp, String action, int trunk, String mode, float minDiff) {
+        private ContentValues createContentValues(long timestamp, float x, float y, float z, 
+        		float xRotation, float yRotation, float zRotation, 
+        		String sex, String age, String height, String shoes, 
+        		String mode, String action, int trunk) {
             ContentValues values = new ContentValues();
+            values.put(KEY_timestamp, timestamp);
             values.put(KEY_x, x);
             values.put(KEY_y, y);
             values.put(KEY_z, z);
             values.put(KEY_rotationX, xRotation);
             values.put(KEY_rotationY, yRotation);
             values.put(KEY_rotationZ, zRotation);
-            values.put(KEY_timestamp, timestamp);
+            values.put(KEY_sex, sex);
+            values.put(KEY_age, age);
+            values.put(KEY_height, height);
+            values.put(KEY_shoes, shoes);
+            values.put(KEY_mode, mode);
             values.put(KEY_action, action);
             values.put(KEY_trunk, trunk);
-            values.put(KEY_mode, mode);
             return values;
         }
 
@@ -100,15 +106,23 @@ public class DbAdapter {
         }
 
         //create a contact
-        public void saveSampleAccelerometer(float x, float y, float z, float xRotation, float yRotation, float zRotation, 
-        		long timestamp, String action, int sensorDelay, String mode, float minDiff) {
-            database.insertOrThrow(DATABASE_TABLE, null, createContentValues(x,y,z, xRotation, yRotation, zRotation, timestamp, action, sensorDelay, trunkAccelerometer, mode, minDiff));
+        public void saveSampleAccelerometer(long timestamp, float x, float y, float z, 
+        		float xRotation, float yRotation, float zRotation, 
+        		String sex, String age, String height, String shoes,
+        		String mode, String action) {
+            database.insertOrThrow(DATABASE_TABLE, null, 
+            		createContentValues(timestamp, x,y,z, xRotation, yRotation, zRotation, 
+            				sex, age, height, shoes, mode, action, trunkAccelerometer));
         }
         
-        public void saveSampleLinearAcceleration(float x, float y, float z, float xRotation, float yRotation, float zRotation, long timestamp, 
-        		String action, int sensorDelay, String mode, float minDiff) {
+        public void saveSampleLinearAcceleration(long timestamp, float x, float y, float z, 
+        		float xRotation, float yRotation, float zRotation, 
+        		String sex, String age, String height, String shoes, 
+        		String mode, String action) {
         	
-        	database.insertOrThrow(DATABASE_TABLE_LINEAR, null, createContentValues(x, y, z, xRotation, yRotation, zRotation, timestamp, action, sensorDelay, trunkLinearAcceleration, mode, minDiff));
+        	database.insertOrThrow(DATABASE_TABLE_LINEAR, null, 
+        			createContentValues(timestamp, x, y, z, xRotation, yRotation, zRotation, 
+        					sex, age, height, shoes, mode, action, trunkLinearAcceleration));
         }
 
         public void cleanDb() {

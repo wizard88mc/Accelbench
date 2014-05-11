@@ -65,36 +65,14 @@ public class SamplingStoreService extends IntentService {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        try {
-            accelerometerListener.setAction(intent.getExtras().getString(MainActivity.SAMPLING_TYPE));
-        } catch (NullPointerException e) {
-            Log.i(MainActivity.AppName, "No action detected.");
-        }
-        try {
-            accelerometerListener.setAccelerometerPosition(intent.getExtras().getString(MainActivity.ACCELEROMETER_POSITION_ACTION));
-            Log.i(MainActivity.AppName, "Accelerometer position: "+intent.getExtras().getString(MainActivity.ACCELEROMETER_POSITION_ACTION));
-        } catch (NullPointerException e) {
-            Log.i(MainActivity.AppName, "No accelerometer position detected.");
-        }
+        
+    	/**
+    	 * Setting the sensor delay of the accelerometer and other sensors
+    	 */
         try {
             sensorDelay = intent.getExtras().getInt(MainActivity.SAMPLING_DELAY);
-            accelerometerListener.setSensorDelay(sensorDelay);
         } catch (NullPointerException e) {
             Log.i(MainActivity.AppName, "No sampling delay detected.");
-        }
-        switch (sensorDelay) {
-            case SensorManager.SENSOR_DELAY_FASTEST:
-                Log.i(MainActivity.AppName, "Chosen FASTEST sensor delay");
-                break;
-            case SensorManager.SENSOR_DELAY_NORMAL:
-                Log.i(MainActivity.AppName, "Chosen NORMAL sensor delay");
-                break;
-            case SensorManager.SENSOR_DELAY_UI:
-                Log.i(MainActivity.AppName, "Chosen UI sensor delay");
-                break;
-            case SensorManager.SENSOR_DELAY_GAME:
-                Log.i(MainActivity.AppName, "Chosen GAME sensor delay");
-                break;
         }
         startAccelerometer();
         return START_STICKY;

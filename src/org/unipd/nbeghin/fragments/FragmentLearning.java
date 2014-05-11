@@ -3,7 +3,6 @@ package org.unipd.nbeghin.fragments;
 import java.util.Arrays;
 
 import org.unipd.nbeghin.MainActivity;
-import org.unipd.nbeghin.MainActivityFragment;
 import org.unipd.nbeghin.MainFragment;
 import org.unipd.nbeghin.R;
 import org.unipd.nbeghin.listeners.AccelerometerStoreListener;
@@ -109,7 +108,7 @@ public class FragmentLearning extends Fragment implements View.OnClickListener {
 				AccelerometerStoreListener.settings.setAction(MainActivity.SAMPLING_TYPE_STAIR_UPSTAIRS);
 			}
 			
-			//((MainActivity)getActivity()).onBtnStartSampling();
+			((MainActivity)getActivity()).onBtnStartSampling();
 		}
 		else if (v.getId() == R.id.btnStopSampling) {
 			/**
@@ -123,6 +122,8 @@ public class FragmentLearning extends Fragment implements View.OnClickListener {
 			((Button) getView().findViewById(R.id.btnStartSampling)).setEnabled(true);
 			
 			((RadioGroup) getView().findViewById(R.id.radioStairsType)).setEnabled(true);
+			
+			((MainActivity)getActivity()).onBtnStopSampling();
 		}
 		else if (v.getId() == R.id.btnStartSamplingAltro) {
 			/**
@@ -136,6 +137,8 @@ public class FragmentLearning extends Fragment implements View.OnClickListener {
 			((Button) getView().findViewById(R.id.btnStopSamplingAltro)).setEnabled(false);
 			
 			AccelerometerStoreListener.settings.setAction(MainActivity.SAMPLING_TYPE_NON_STAIR);
+			
+			((MainActivity)getActivity()).onBtnStartSamplingAltro();
 		}
 		else if (v.getId() == R.id.btnStopSamplingAltro) {
 			/**
@@ -147,8 +150,9 @@ public class FragmentLearning extends Fragment implements View.OnClickListener {
 			 */
 			v.setEnabled(false);
 			((Button) getView().findViewById(R.id.btnStartSamplingAltro)).setEnabled(true);
+			
+			((MainActivity)getActivity()).onBtnStopSamplingAltro();
 		}
-		((MainActivityFragment)getActivity()).startRecordStairData();
 	}
 	
 	private void storePreferences() {

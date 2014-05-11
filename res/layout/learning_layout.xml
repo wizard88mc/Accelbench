@@ -195,16 +195,10 @@
                 android:checked="false"
                 android:text="Scale giù" />
         </RadioGroup>
-        
-        <TextView 
-            android:id="@+id/deltaTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/nonstairsWrapper"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp" >

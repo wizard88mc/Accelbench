@@ -71,15 +71,14 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    public void onBtnStartSamplingAltro(View v) {
-        
+    public void onBtnStartSamplingAltro() {
+        samplingEnabled = true;
         startSamplingService();
     }
     
     public void onBtnStopSamplingAltro() {
         stopService(backgroundStoreSampler); // stop background server
         samplingEnabled=false;
-        
     }
 
     public void onBtnStartSampling() {
