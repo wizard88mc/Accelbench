@@ -2,8 +2,11 @@ package org.unipd.nbeghin.fragments;
 
 import java.util.Arrays;
 
+import org.unipd.nbeghin.MainActivity;
 import org.unipd.nbeghin.MainFragment;
 import org.unipd.nbeghin.R;
+import org.unipd.nbeghin.listeners.AccelerometerStoreListener;
+import org.unipd.nbeghin.models.Settings;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -20,6 +23,8 @@ public class FragmentTest extends Fragment implements View.OnClickListener {
 	public static String[] optionsHeight = null;
 	public static String[] optionsShoes = null;
 	public static String[] optionsLocation = null;
+	
+	private String currentStairMode = MainActivity.SAMPLING_TYPE_STAIR_UPSTAIRS;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -28,8 +33,12 @@ public class FragmentTest extends Fragment implements View.OnClickListener {
 		
 		View result = inflater.inflate(R.layout.test_layout, container, false);
 		
-		result.findViewById(R.id.btnStartTestData).setOnClickListener(this);
+		result.findViewById(R.id.btnStartStairs).setOnClickListener(this);
 		
+		result.findViewById(R.id.btnStartAltro).setOnClickListener(this);
+		
+		result.findViewById(R.id.btnStopDataAcquisition).setOnClickListener(this);
+		result.findViewById(R.id.btnStopDataAcquisition).setEnabled(false);
 		/**
 		 * Setting the adapter for the SEX spinner
 		 */
@@ -77,8 +86,45 @@ public class FragmentTest extends Fragment implements View.OnClickListener {
 	@Override
 	public void onClick(View v) {
 		
+		AccelerometerStoreListener.settings.setTestData(1);
+		v.setEnabled(false);
 		
+		if (v.getId() == getView().findViewById(R.id.btnStartStairs).getId()) {
+			getView().findViewById(R.id.btnStopDataAcquisition).setEnabled(true);
+			
+			AccelerometerStoreListener.settings.setAction(currentStairMode);
+			
+			((MainActivity)getActivity()).onBtnStartSampling();
+		}
+		else if (v.getId() == getView().findViewById(R.id.btnStartAltro).getId()) {
+			getView().findViewById(R.id.btnStopDataAcquisition).setEnabled(true);
+		}
+		else if (v.getId() == getView().findViewById(R.id.btnStopDataAcquisition).getId()) {
+			
+			
+		}
 		
+	}
+	
+private void storePreferences() {
+		
+		String sex = ((Spinner) getView().findViewById(R.id.sex)).getSelectedItem().toString();
+		String age = ((Spinner) getView().findViewById(R.id.age)).getSelectedItem().toString();
+		String height = ((Spinner) getView().findViewById(R.id.height)).getSelectedItem().toString();
+		String shoes = ((Spinner) getView().findViewById(R.id.shoes_type)).getSelectedItem().toString();
+		String location = ((Spinner) getView().findViewById(R.id.accelerometer_position)).getSelectedItem().toString();
+		
+		/**
+		 * Storing preferences
+		 */
+		SharedPreferences settings = getActivity().getPreferences(0);
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putString("SEX", sex); editor.putString("AGE", age);
+		editor.putString("HEIGHT", height); editor.putString("SHOES", shoes);
+		editor.putString("LOCATION", location);
+		editor.commit();
+		
+		AccelerometerStoreListener.settings = new Settings(sex, age, height, shoes, location);
 	}
 
 }

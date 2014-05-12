@@ -11,6 +11,7 @@ public class Settings {
 	private String position;
 	private String shoes;
 	private String action;
+	private int testData = 0;
 	private static Map<String, String> associations = new HashMap<String, String>();
 	
 	static {
@@ -55,5 +56,13 @@ public class Settings {
 	
 	public String getAction() {
 		return this.action;
+	}
+	
+	public void setTestData(int testData) {
+		this.testData = testData;
+	}
+	
+	public int getTestData() {
+		return this.testData;
 	}
 }

@@ -1,5 +1,10 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    
+    <LinearLayout
     android:id="@+id/LinearLayout1"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -103,21 +108,74 @@
         android:layout_marginBottom="20dp"
         android:orientation="vertical" >
         
-        	<TextView
+        	<EditText
         	    android:id="@+id/notes"
         	    android:layout_width="fill_parent"
         	    android:layout_height="wrap_content"
         	    android:lines="5"
         	    android:text="Provides some notes here about the data" />
+        	
+        	<LinearLayout 
+        	    android:orientation="horizontal"
+        	    android:layout_width="fill_parent"
+        	    android:layout_height="wrap_content"
+        	    android:layout_gravity="center">
+        	    
+        	    <Button 
+        	        android:id="@+id/btnStartStairs"
+        	        android:text="Inizio Scale"
+        	        android:layout_width="0dp"
+        	        android:layout_height="wrap_content"
+        	        android:layout_weight="1"/>
+        	    
+        	</LinearLayout>
+        	
+        	<RadioGroup 
+        	    android:layout_width="wrap_content"
+        	    android:layout_height="wrap_content"
+        	    android:orientation="horizontal"
+        	    android:layout_gravity="center_horizontal">
+        	    
+        	    <RadioButton 
+        	        android:id="@+id/radioStairsUp"
+        	        android:layout_width="wrap_content"
+        	        android:layout_height="wrap_content"
+        	        android:text="Scale su"
+        	        android:checked="true"/>
+        	    
+        	    <RadioButton
+        	        android:id="@+id/radioStairsDown"
+        	        android:layout_width="wrap_content"
+        	        android:layout_height="wrap_content"
+        	        android:text="Scale giù"
+        	        android:checked="false"/>
+        	    
+        	</RadioGroup> 
+        	
+        	<LinearLayout 
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
+                
+                <Button 
+                    android:id="@+id/btnStartAltro"
+                    android:text="Inizio altro"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                
+            </LinearLayout>
+        	
         
             <Button
-                android:id="@+id/btnStartTestData"
+                android:id="@+id/btnStopDataAcquisition"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:enabled="true"
                 android:layout_gravity="center"
-                android:text="Registra dati test" />
+                android:text="Interrompi registrazione dati" />
 
     </LinearLayout>
 
@@ -172,13 +230,9 @@
             android:layout_gravity="left|center_vertical"
             android:checked="true"
             android:text="8ms" />
-            <!-- android:checked="false"
-            android:enabled="false" -->
-
-        
-            <!-- android:checked="false"
-            android:enabled="false" -->
             
     </RadioGroup>
 
 </LinearLayout>
+
+</ScrollView>

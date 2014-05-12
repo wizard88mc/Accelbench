@@ -35,14 +35,16 @@ public final class R {
     public static final class id {
         public static final int LinearLayout1=0x7f0a0000;
         public static final int accelerometer_position=0x7f0a001f;
-        public static final int action_cleardb=0x7f0a0024;
-        public static final int action_stop_all_services=0x7f0a0026;
-        public static final int action_upload_db=0x7f0a0025;
+        public static final int action_cleardb=0x7f0a0028;
+        public static final int action_stop_all_services=0x7f0a002a;
+        public static final int action_upload_db=0x7f0a0029;
         public static final int age=0x7f0a001d;
+        public static final int btnStartAltro=0x7f0a0026;
         public static final int btnStartClassifier=0x7f0a0002;
         public static final int btnStartSampling=0x7f0a000e;
         public static final int btnStartSamplingAltro=0x7f0a0015;
-        public static final int btnStartTestData=0x7f0a0023;
+        public static final int btnStartStairs=0x7f0a0023;
+        public static final int btnStopDataAcquisition=0x7f0a0027;
         public static final int btnStopSampling=0x7f0a000f;
         public static final int btnStopSamplingAltro=0x7f0a0016;
         public static final int classifierPanel=0x7f0a0001;
@@ -63,7 +65,9 @@ public final class R {
         public static final int radioSamplingGroup=0x7f0a0017;
         public static final int radioSamplingNormal=0x7f0a0018;
         public static final int radioSamplingUI=0x7f0a001a;
+        public static final int radioStairsDown=0x7f0a0025;
         public static final int radioStairsType=0x7f0a0010;
+        public static final int radioStairsUp=0x7f0a0024;
         public static final int radioTascaMode=0x7f0a0009;
         public static final int radioUpstairs=0x7f0a0011;
         public static final int sex=0x7f0a001c;

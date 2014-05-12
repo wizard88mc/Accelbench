@@ -51,25 +51,7 @@ public class MainActivity extends FragmentActivity {
 	public static final String	ACCELEROMETER_POSITION_ACTION	= "org.unipd.nbeghin.accelerometer.position";
     private boolean samplingEnabled=false;
     private Intent backgroundStoreSampler;
-    private IntentFilter classifierFilter =new IntentFilter(ClassifierCircularBuffer.CLASSIFIER_ACTION);
-    private IntentFilter samplingRateDetectorFilter=new IntentFilter(AccelerometerSamplingRateDetect.SAMPLING_RATE_ACTION);
     private int num_steps=0;
-    
-    
-
-    public class ClassifierReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String result=intent.getExtras().getString(ClassifierCircularBuffer.CLASSIFIER_NOTIFICATION_STATUS);
-            Log.i(MainActivity.AppName, result);
-            if (result.equals("STAIR")) {
-                num_steps++;
-                ((TextView) findViewById(R.id.lblNumSteps)).setText(Integer.toString(num_steps));
-            }
-            ((TextView) findViewById(R.id.lblClassifierOutput)).setText(result);
-        }
-    }
 
     public void onBtnStartSamplingAltro() {
         samplingEnabled = true;
@@ -81,7 +63,7 @@ public class MainActivity extends FragmentActivity {
         samplingEnabled=false;
     }
 
-    public void onBtnStartSampling() {
+    public void onBtnStartSampling(boolean testData) {
         
         startSamplingService();
     }

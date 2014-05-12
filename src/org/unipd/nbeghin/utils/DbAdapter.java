@@ -23,8 +23,7 @@ public class DbAdapter {
         // Database fields
         private static String DATABASE_TABLE;
         private static String DATABASE_TABLE_LINEAR;
-        private static String DATABASE_TABLE_TEST;
-        private static String DATABASE_TABLE_LINEAR_TEST;
+        private static String DATABASE_ANNOTATIONS;
         public static final String KEY_timestamp = "timestamp";
         public static final String KEY_x = "x";
         public static final String KEY_y = "y";
@@ -39,6 +38,7 @@ public class DbAdapter {
         public static final String KEY_mode = "mode";
         public static final String KEY_action = "action";
         public static final String KEY_trunk = "trunk";
+        public static final String KEY_test = "testData";
         
         public DbAdapter(Context context) {
             this.context = context;
@@ -49,8 +49,7 @@ public class DbAdapter {
             database = dbHelper.getWritableDatabase();
             DATABASE_TABLE = DatabaseHelper.getDatabaseTable();
             DATABASE_TABLE_LINEAR = DatabaseHelper.getDatabaseTableLinear();
-            DATABASE_TABLE_TEST = DatabaseHelper.getDatabaseTableTest();
-            DATABASE_TABLE_LINEAR_TEST = DatabaseHelper.getDatabaseTableLinearTest();
+            DATABASE_ANNOTATIONS = DatabaseHelper.getDatabaseAnnotations();
             this.getNewTrunkIdAccelerometer();
             this.getNewTrunkIdLinear();
             return this;
@@ -67,7 +66,7 @@ public class DbAdapter {
         private ContentValues createContentValues(long timestamp, float x, float y, float z, 
         		float xRotation, float yRotation, float zRotation, 
         		String sex, String age, String height, String shoes, 
-        		String mode, String action, int trunk) {
+        		String mode, String action, int trunk, int testData) {
             ContentValues values = new ContentValues();
             values.put(KEY_timestamp, timestamp);
             values.put(KEY_x, x);
@@ -83,6 +82,7 @@ public class DbAdapter {
             values.put(KEY_mode, mode);
             values.put(KEY_action, action);
             values.put(KEY_trunk, trunk);
+            values.put(KEY_test, testData);
             return values;
         }
 
@@ -109,25 +109,26 @@ public class DbAdapter {
         public void saveSampleAccelerometer(long timestamp, float x, float y, float z, 
         		float xRotation, float yRotation, float zRotation, 
         		String sex, String age, String height, String shoes,
-        		String mode, String action) {
+        		String mode, String action, int testData) {
             database.insertOrThrow(DATABASE_TABLE, null, 
             		createContentValues(timestamp, x,y,z, xRotation, yRotation, zRotation, 
-            				sex, age, height, shoes, mode, action, trunkAccelerometer));
+            				sex, age, height, shoes, mode, action, trunkAccelerometer, testData));
         }
         
         public void saveSampleLinearAcceleration(long timestamp, float x, float y, float z, 
         		float xRotation, float yRotation, float zRotation, 
         		String sex, String age, String height, String shoes, 
-        		String mode, String action) {
+        		String mode, String action, int testData) {
         	
         	database.insertOrThrow(DATABASE_TABLE_LINEAR, null, 
         			createContentValues(timestamp, x, y, z, xRotation, yRotation, zRotation, 
-        					sex, age, height, shoes, mode, action, trunkLinearAcceleration));
+        					sex, age, height, shoes, mode, action, trunkLinearAcceleration, testData));
         }
 
         public void cleanDb() {
-            database.execSQL("DELETE FROM "+DATABASE_TABLE);
+            database.execSQL("DELETE FROM " + DATABASE_TABLE);
             database.execSQL("DELETE FROM " + DATABASE_TABLE_LINEAR);
+            database.execSQL("DELETE FROM " + DATABASE_ANNOTATIONS);
             database.execSQL("VACUUM");
         }
 }

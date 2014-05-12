@@ -78,6 +78,8 @@ public class FragmentLearning extends Fragment implements View.OnClickListener {
 			((Spinner) result.findViewById(R.id.accelerometer_position)).setSelection(Arrays.asList(optionsLocation).indexOf(preferences.getString("LOCATION", "")));
 		}
 		
+		storePreferences();
+		
 		return result;
 	}
 	
@@ -85,6 +87,8 @@ public class FragmentLearning extends Fragment implements View.OnClickListener {
 	public void onClick(View v) {
 
 		storePreferences();
+		
+		AccelerometerStoreListener.settings.setTestData(0);
 		
 		if (v.getId() == R.id.btnStartSampling) {
 			/**

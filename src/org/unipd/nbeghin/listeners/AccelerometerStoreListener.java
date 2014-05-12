@@ -23,9 +23,14 @@ public class AccelerometerStoreListener implements SensorEventListener {
 	private double 				lastValueTimestamp = 0;
 	public static Settings 		settings;
 	private static final String	UNDEFINED_ACTION		= "UNDEFINED";
+	private boolean isTestData = false;
 
 	public void closeDb() {
 		db.close();
+	}
+	
+	public void setTestData(boolean testData) {
+		this.isTestData = testData;
 	}
 
 	public AccelerometerStoreListener(Context context) {
@@ -55,7 +60,7 @@ public class AccelerometerStoreListener implements SensorEventListener {
 				db.saveSampleAccelerometer(event.timestamp, x, y, z, 
 						lastValuesRotationVector[0], lastValuesRotationVector[1], lastValuesRotationVector[2], 
 					settings.getSex(), settings.getAge(), settings.getHeight(), 
-					settings.getShoes(), settings.getPosition(), settings.getAction());
+					settings.getShoes(), settings.getPosition(), settings.getAction(), settings.getTestData());
 			}
 		}
 		else if (event.sensor == SamplingStoreService.mLinearAcceleration) {
@@ -70,7 +75,7 @@ public class AccelerometerStoreListener implements SensorEventListener {
 				db.saveSampleLinearAcceleration(event.timestamp, x, y, z, 
 						lastValuesRotationVector[0], lastValuesRotationVector[1], lastValuesRotationVector[2], 
 					settings.getSex(), settings.getAge(), settings.getHeight(), 
-					settings.getShoes(), settings.getPosition(), settings.getAction());
+					settings.getShoes(), settings.getPosition(), settings.getAction(), settings.getTestData());
 			}
 		}
 		else if (event.sensor == SamplingStoreService.mRotationVector) {
