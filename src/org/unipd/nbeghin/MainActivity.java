@@ -63,7 +63,7 @@ public class MainActivity extends FragmentActivity {
         samplingEnabled=false;
     }
 
-    public void onBtnStartSampling(boolean testData) {
+    public void onBtnStartSampling() {
         
         startSamplingService();
     }

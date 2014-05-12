@@ -16,7 +16,7 @@ public class Settings {
 	
 	static {
 		associations.put("Tasca bassa giacca", "TASCA_GIACCA_BASSA");
-		associations.put("Tasca alta giacca", "TASCA_ALTA_GIACCA");
+		associations.put("Tasca alta giacca", "TASCA_GIACCA_ALTA");
 		associations.put("Mano", "MANO");
 		associations.put("Telefonata", "TELEFONATA");
 		associations.put("Borsa", "BORSA");
@@ -25,9 +25,10 @@ public class Settings {
 		associations.put("Tasca pantaloni dietro", "TASCA_PANTALONI_DIETRO");
 	}
 	
-	public Settings(String sex, String age, String height, String shoes, String position) {
+	public Settings(String sex, String age, String height, String shoes, 
+			String position, int testData) {
 		this.sex = sex; this.age = age; this.height = height; this.shoes = shoes;
-		this.position = associations.get(position);
+		this.position = associations.get(position); this.testData = testData;
 	}
 	
 	public void setAction(String action) {
@@ -56,10 +57,6 @@ public class Settings {
 	
 	public String getAction() {
 		return this.action;
-	}
-	
-	public void setTestData(int testData) {
-		this.testData = testData;
 	}
 	
 	public int getTestData() {

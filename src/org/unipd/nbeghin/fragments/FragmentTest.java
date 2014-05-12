@@ -11,12 +11,15 @@ import org.unipd.nbeghin.models.Settings;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Spinner;
 
-public class FragmentTest extends Fragment implements View.OnClickListener {
+public class FragmentTest extends Fragment implements View.OnClickListener, OnCheckedChangeListener {
 	
 	public static String[] optionsSex = null;
 	public static String[] optionsAge = null;
@@ -25,6 +28,8 @@ public class FragmentTest extends Fragment implements View.OnClickListener {
 	public static String[] optionsLocation = null;
 	
 	private String currentStairMode = MainActivity.SAMPLING_TYPE_STAIR_UPSTAIRS;
+	
+	private boolean sampling = false;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,6 +44,9 @@ public class FragmentTest extends Fragment implements View.OnClickListener {
 		
 		result.findViewById(R.id.btnStopDataAcquisition).setOnClickListener(this);
 		result.findViewById(R.id.btnStopDataAcquisition).setEnabled(false);
+		
+		((RadioGroup)result.findViewById(R.id.radioGroupStairsType)).setOnCheckedChangeListener(this);
+		
 		/**
 		 * Setting the adapter for the SEX spinner
 		 */
@@ -86,10 +94,11 @@ public class FragmentTest extends Fragment implements View.OnClickListener {
 	@Override
 	public void onClick(View v) {
 		
-		AccelerometerStoreListener.settings.setTestData(1);
+		storePreferences();
 		v.setEnabled(false);
 		
 		if (v.getId() == getView().findViewById(R.id.btnStartStairs).getId()) {
+			
 			getView().findViewById(R.id.btnStopDataAcquisition).setEnabled(true);
 			
 			AccelerometerStoreListener.settings.setAction(currentStairMode);
@@ -97,11 +106,17 @@ public class FragmentTest extends Fragment implements View.OnClickListener {
 			((MainActivity)getActivity()).onBtnStartSampling();
 		}
 		else if (v.getId() == getView().findViewById(R.id.btnStartAltro).getId()) {
+			
 			getView().findViewById(R.id.btnStopDataAcquisition).setEnabled(true);
 		}
 		else if (v.getId() == getView().findViewById(R.id.btnStopDataAcquisition).getId()) {
 			
-			
+			enableOrDisableInput(true);
+			/**
+			 * Devo recuperare valore nelle note e salvarlo
+			 */
+			sampling = false;
+			((MainActivity)getActivity()).onBtnStopSampling();
 		}
 		
 	}
@@ -124,7 +139,30 @@ private void storePreferences() {
 		editor.putString("LOCATION", location);
 		editor.commit();
 		
-		AccelerometerStoreListener.settings = new Settings(sex, age, height, shoes, location);
+		AccelerometerStoreListener.settings = new Settings(sex, age, height, shoes, location, 1);
+	}
+
+	private void enableOrDisableInput(boolean enabled) {
+		
+		getView().findViewById(R.id.sex).setEnabled(enabled);
+		getView().findViewById(R.id.age).setEnabled(enabled);
+		getView().findViewById(R.id.height).setEnabled(enabled);
+		getView().findViewById(R.id.accelerometer_position).setEnabled(enabled);
+		getView().findViewById(R.id.shoes_type).setEnabled(enabled);
+	}
+
+	@Override
+	public void onCheckedChanged(RadioGroup group, int checkedId) {
+		
+		if (checkedId == R.id.radioStairsUp) {
+			currentStairMode = MainActivity.SAMPLING_TYPE_STAIR_UPSTAIRS;
+		}
+		else if (checkedId == R.id.radioStairsDown) {
+			currentStairMode = MainActivity.SAMPLING_TYPE_STAIR_DOWNSTAIRS;
+		}
+		if (AccelerometerStoreListener.settings != null) {
+			AccelerometerStoreListener.settings.setAction(currentStairMode);
+		}
 	}
 
 }

@@ -21,7 +21,7 @@ public class AccelerometerStoreListener implements SensorEventListener {
 	private float 				mLastXLinear, mLastYLinear, mLastZLinear;
 	private float[]				lastValuesRotationVector;
 	private double 				lastValueTimestamp = 0;
-	public static Settings 		settings;
+	public static Settings 		settings = null;
 	private static final String	UNDEFINED_ACTION		= "UNDEFINED";
 	private boolean isTestData = false;
 
