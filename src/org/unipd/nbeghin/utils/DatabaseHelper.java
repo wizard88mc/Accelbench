@@ -14,7 +14,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_TABLE_LINEAR = "samples_linear";
     private static final String DATABASE_ANNOTATIONS_TEST = "annotations_test";
     private static final String DATABASE_NAME="accelbench.db";
-    private static final int SCHEMA=8;
+    private static final int SCHEMA=10;
 
     public static String getDatabaseTable() {
         return DATABASE_TABLE;
@@ -39,19 +39,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         		+ "\"sex\" TEXT, \"age\" TEXT, \"height\" TEXT, \"shoes\" TEXT, \"mode\" TEXT, "
         		+ "\"action\" TEXT, \"trunk\" INTEGER, \"testData\" INTEGER);");
         
-        db.execSQL("CREATE TABLE IF NOT EXISTS \""+DATABASE_TABLE_LINEAR+"\" (\"x\" REAL,\"y\" REAL,\"z\" REAL,"
+        db.execSQL("CREATE TABLE IF NOT EXISTS \""+DATABASE_TABLE_LINEAR+"\" (\"timestamp\" REAL, \"x\" REAL,\"y\" REAL,\"z\" REAL,"
         		+ "\"rotationX\" REAL, \"rotationY\" REAL, \"rotationZ\" REAL, "
         		+ "\"sex\" TEXT, \"age\" TEXT, \"height\" TEXT, \"shoes\" TEXT, \"mode\" TEXT, "
         		+ "\"action\" TEXT, \"trunk\" INTEGER, \"testData\" INTEGER);");
         
         db.execSQL("CREATE TABLE IF NOT EXISTS \""+DATABASE_ANNOTATIONS_TEST+"\" (\"trunk\" INTEGER, "
-        		+ "\"annotation\" TEXT);");
+        		+ "\"trunkLinear\" INTEGER, \"annotation\" TEXT);");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE_LINEAR);
+        db.execSQL("DROP TABLE IF EXISTS " + DATABASE_ANNOTATIONS_TEST);
         onCreate(db);
     }
     

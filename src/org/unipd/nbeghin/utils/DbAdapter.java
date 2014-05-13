@@ -39,6 +39,8 @@ public class DbAdapter {
         public static final String KEY_action = "action";
         public static final String KEY_trunk = "trunk";
         public static final String KEY_test = "testData";
+        public static final String KEY_annotation = "annotation";
+        public static final String KEY_trunkLinear = "trunkLinear";
         
         public DbAdapter(Context context) {
             this.context = context;
@@ -85,6 +87,15 @@ public class DbAdapter {
             values.put(KEY_test, testData);
             return values;
         }
+        
+        private ContentValues createContentValuesNotes(int trunkID, 
+        		int trunkIDLinear, String text) {
+        	ContentValues values = new ContentValues();
+        	values.put(KEY_trunk, trunkID);
+        	values.put(KEY_trunkLinear, trunkIDLinear);
+        	values.put(KEY_annotation, text);
+        	return values;
+        }
 
         public void getNewTrunkIdAccelerometer() {
             this.trunkAccelerometer=1;
@@ -103,6 +114,14 @@ public class DbAdapter {
         	else {
         		return database.compileStatement("SELECT COUNT(*) FROM " + DATABASE_TABLE_LINEAR).simpleQueryForLong();
         	}
+        }
+        
+        private int getLastTrunkId() {
+        	return (int)database.compileStatement("SELECT MAX(trunk) FROM " + DATABASE_TABLE).simpleQueryForLong();
+        }
+        
+        private int getLastTrunkIdLinear() {
+        	return (int)database.compileStatement("SELECT MAX(trunk) FROM " + DATABASE_TABLE_LINEAR).simpleQueryForLong();
         }
 
         //create a contact
@@ -123,6 +142,11 @@ public class DbAdapter {
         	database.insertOrThrow(DATABASE_TABLE_LINEAR, null, 
         			createContentValues(timestamp, x, y, z, xRotation, yRotation, zRotation, 
         					sex, age, height, shoes, mode, action, trunkLinearAcceleration, testData));
+        }
+        
+        public void saveNotesForTestData(String text) {
+        	database.insertOrThrow(DATABASE_ANNOTATIONS, null, 
+        			createContentValuesNotes(getLastTrunkId(), getLastTrunkIdLinear(), text));
         }
 
         public void cleanDb() {

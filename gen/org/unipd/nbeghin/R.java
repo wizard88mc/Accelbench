@@ -36,7 +36,6 @@ public final class R {
         public static final int LinearLayout1=0x7f0a0000;
         public static final int accelerometer_position=0x7f0a001f;
         public static final int action_cleardb=0x7f0a0029;
-        public static final int action_stop_all_services=0x7f0a002b;
         public static final int action_upload_db=0x7f0a002a;
         public static final int age=0x7f0a001d;
         public static final int btnStartAltro=0x7f0a0027;

@@ -7,8 +7,4 @@
           android:title="Share db"
           android:onClick="onBtnUploadDb"
       />
-    <item android:id="@+id/action_stop_all_services"
-        android:title="Stop all services"
-        android:onClick="onBtnStopAllServices"
-        />
 </menu>

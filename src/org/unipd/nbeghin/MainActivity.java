@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.unipd.nbeghin.listeners.AccelerometerSamplingRateDetect;
+import org.unipd.nbeghin.listeners.AccelerometerStoreListener;
 import org.unipd.nbeghin.models.ClassifierCircularBuffer;
 import org.unipd.nbeghin.services.SamplingClassifyService;
 import org.unipd.nbeghin.services.SamplingRateDetectorService;
@@ -81,7 +82,7 @@ public class MainActivity extends FragmentActivity {
         samplingEnabled=true;
     }
 
-    private void stopAllServices() {
+    public void stopAllServices() {
         try {
             stopService(backgroundStoreSampler);
         } catch (Exception e) {
@@ -93,9 +94,9 @@ public class MainActivity extends FragmentActivity {
     public void onBtnClearDb(MenuItem v) {
         clearDb();
     }
-
-    public void onBtnStopAllServices(MenuItem v) {
-        stopAllServices();
+    
+    public void saveNotesForTestData(String text) {
+    	AccelerometerStoreListener.db.saveNotesForTestData(text);
     }
 
     public void onBtnUploadDb(MenuItem v) {
@@ -190,10 +191,6 @@ public class MainActivity extends FragmentActivity {
             }
             if (item.getItemId() == R.id.action_upload_db) {
                 shareDb();
-                return true;
-            }
-            if (item.getItemId()==R.id.action_stop_all_services) {
-                stopAllServices();
                 return true;
             }
         }

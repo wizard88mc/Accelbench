@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Spinner;
@@ -99,24 +100,43 @@ public class FragmentTest extends Fragment implements View.OnClickListener, OnCh
 		
 		if (v.getId() == getView().findViewById(R.id.btnStartStairs).getId()) {
 			
-			getView().findViewById(R.id.btnStopDataAcquisition).setEnabled(true);
-			
 			AccelerometerStoreListener.settings.setAction(currentStairMode);
 			
-			((MainActivity)getActivity()).onBtnStartSampling();
+			if (!sampling) {
+				sampling = true;
+				enableOrDisableInput(false);
+				getView().findViewById(R.id.btnStopDataAcquisition).setEnabled(true);
+				((MainActivity)getActivity()).onBtnStartSampling();
+			}
+			
+			getView().findViewById(R.id.btnStartAltro).setEnabled(true);
 		}
 		else if (v.getId() == getView().findViewById(R.id.btnStartAltro).getId()) {
 			
-			getView().findViewById(R.id.btnStopDataAcquisition).setEnabled(true);
+			AccelerometerStoreListener.settings.setAction(MainActivity.SAMPLING_TYPE_NON_STAIR);
+			
+			if (!sampling) {
+				sampling = true;
+				enableOrDisableInput(false);
+				getView().findViewById(R.id.btnStopDataAcquisition).setEnabled(true);
+			}
+			
+			getView().findViewById(R.id.btnStartStairs).setEnabled(true);
 		}
 		else if (v.getId() == getView().findViewById(R.id.btnStopDataAcquisition).getId()) {
 			
-			enableOrDisableInput(true);
+			((MainActivity)getActivity()).stopAllServices();
 			/**
 			 * Devo recuperare valore nelle note e salvarlo
 			 */
 			sampling = false;
-			((MainActivity)getActivity()).onBtnStopSampling();
+			String text = ((EditText)getView().findViewById(R.id.notes)).getText().toString();
+			
+			((MainActivity)getActivity()).saveNotesForTestData(text);
+			
+			getView().findViewById(R.id.btnStartAltro).setEnabled(true);
+			getView().findViewById(R.id.btnStartStairs).setEnabled(true);
+			enableOrDisableInput(true);
 		}
 		
 	}

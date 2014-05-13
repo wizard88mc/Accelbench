@@ -23,11 +23,13 @@ public class Settings {
 		associations.put("Zaino", "ZAINO");
 		associations.put("Tasca pantaloni davanti", "TASCA_PANTALONI_DAVANTI");
 		associations.put("Tasca pantaloni dietro", "TASCA_PANTALONI_DIETRO");
+		associations.put("Con tacco", "TACCO");
+		associations.put("GINNICHE", "GINNASTICA");
 	}
 	
 	public Settings(String sex, String age, String height, String shoes, 
 			String position, int testData) {
-		this.sex = sex; this.age = age; this.height = height; this.shoes = shoes;
+		this.sex = sex; this.age = age; this.height = height; this.shoes = associations.get(shoes);
 		this.position = associations.get(position); this.testData = testData;
 	}
 	

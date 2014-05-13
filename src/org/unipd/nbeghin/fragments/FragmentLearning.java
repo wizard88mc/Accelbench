@@ -36,6 +36,9 @@ public class FragmentLearning extends Fragment implements View.OnClickListener {
 		View result = inflater.inflate(R.layout.learning_layout, container, false);
 		
 		result.findViewById(R.id.btnStartSampling).setOnClickListener(this);
+		result.findViewById(R.id.btnStopSampling).setOnClickListener(this);
+		result.findViewById(R.id.btnStartSamplingAltro).setOnClickListener(this);
+		result.findViewById(R.id.btnStopSamplingAltro).setOnClickListener(this);
 		
 		/**
 		 * Setting the adapter for the SEX spinner and setting default value
@@ -134,13 +137,15 @@ public class FragmentLearning extends Fragment implements View.OnClickListener {
 			 * Disabling the current button and enabling the stop button
 			 */
 			v.setEnabled(false);
-			((Button) getView().findViewById(R.id.btnStopSamplingAltro)).setEnabled(false);
+			((Button) getView().findViewById(R.id.btnStopSamplingAltro)).setEnabled(true);
 			
 			AccelerometerStoreListener.settings.setAction(MainActivity.SAMPLING_TYPE_NON_STAIR);
 			
 			((MainActivity)getActivity()).onBtnStartSamplingAltro();
 		}
 		else if (v.getId() == R.id.btnStopSamplingAltro) {
+
+			((MainActivity)getActivity()).onBtnStopSamplingAltro();
 			/**
 			 * Enabling the start button for the STAIR data
 			 */
@@ -151,7 +156,6 @@ public class FragmentLearning extends Fragment implements View.OnClickListener {
 			v.setEnabled(false);
 			((Button) getView().findViewById(R.id.btnStartSamplingAltro)).setEnabled(true);
 			
-			((MainActivity)getActivity()).onBtnStopSamplingAltro();
 		}
 	}
 	

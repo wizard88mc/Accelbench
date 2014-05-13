@@ -16,7 +16,7 @@ import org.unipd.nbeghin.utils.DbAdapter;
  */
 public class AccelerometerStoreListener implements SensorEventListener {
 	private boolean				mInitialized			= false;
-	public DbAdapter			db;
+	public static DbAdapter		db;
 	private float				mLastX, mLastY, mLastZ;
 	private float 				mLastXLinear, mLastYLinear, mLastZLinear;
 	private float[]				lastValuesRotationVector;
@@ -86,5 +86,9 @@ public class AccelerometerStoreListener implements SensorEventListener {
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
 		// TODO
+	}
+	
+	public void saveNotes(String text) {
+		db.saveNotesForTestData(text);
 	}
 }
