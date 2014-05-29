@@ -92,9 +92,6 @@ public class SamplingStoreService extends IntentService {
     public void startAccelerometer() {
         Log.i(MainActivity.AppName, "Registering accelerometer listener");
         accelerometerListener.db.database.beginTransaction();
-        /*mSensorManager.registerListener(accelerometerListener, mRotationVector, sensorDelay);
-        mSensorManager.registerListener(accelerometerListener, mAccelerometer, sensorDelay); // SensorManager.SENSOR_DELAY_NORMAL
-        mSensorManager.registerListener(accelerometerListener, mLinearAcceleration, sensorDelay);*/
         mSensorManager.registerListener(accelerometerListener, mRotationVector, sensorDelay);
         mSensorManager.registerListener(accelerometerListener, mAccelerometer, sensorDelay); // SensorManager.SENSOR_DELAY_NORMAL
         mSensorManager.registerListener(accelerometerListener, mLinearAcceleration, sensorDelay);

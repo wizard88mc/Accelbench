@@ -119,6 +119,7 @@ public class FragmentTest extends Fragment implements View.OnClickListener, OnCh
 				sampling = true;
 				enableOrDisableInput(false);
 				getView().findViewById(R.id.btnStopDataAcquisition).setEnabled(true);
+				((MainActivity)getActivity()).onBtnStartSamplingAltro();
 			}
 			
 			getView().findViewById(R.id.btnStartStairs).setEnabled(true);
