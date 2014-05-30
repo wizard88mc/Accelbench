@@ -24,7 +24,7 @@ public class Settings {
 		associations.put("Tasca pantaloni davanti", "TASCA_PANTALONI_DAVANTI");
 		associations.put("Tasca pantaloni dietro", "TASCA_PANTALONI_DIETRO");
 		associations.put("Con tacco", "TACCO");
-		associations.put("GINNICHE", "GINNASTICA");
+		associations.put("Ginniche", "GINNASTICA");
 	}
 	
 	public Settings(String sex, String age, String height, String shoes, 

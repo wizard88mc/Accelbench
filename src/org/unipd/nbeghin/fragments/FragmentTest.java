@@ -30,7 +30,8 @@ public class FragmentTest extends Fragment implements View.OnClickListener, OnCh
 	
 	private String currentStairMode = MainActivity.SAMPLING_TYPE_STAIR_UPSTAIRS;
 	
-	private boolean sampling = false;
+	private boolean samplingStairs = false;
+	private boolean samplingNoStairs = false;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -102,8 +103,9 @@ public class FragmentTest extends Fragment implements View.OnClickListener, OnCh
 			
 			AccelerometerStoreListener.settings.setAction(currentStairMode);
 			
-			if (!sampling) {
-				sampling = true;
+			if (!samplingStairs && !samplingNoStairs) {
+				samplingStairs = true;
+				samplingNoStairs = false;
 				enableOrDisableInput(false);
 				getView().findViewById(R.id.btnStopDataAcquisition).setEnabled(true);
 				((MainActivity)getActivity()).onBtnStartSampling();
@@ -115,8 +117,8 @@ public class FragmentTest extends Fragment implements View.OnClickListener, OnCh
 			
 			AccelerometerStoreListener.settings.setAction(MainActivity.SAMPLING_TYPE_NON_STAIR);
 			
-			if (!sampling) {
-				sampling = true;
+			if (!samplingNoStairs) {
+				samplingNoStairs = true;
 				enableOrDisableInput(false);
 				getView().findViewById(R.id.btnStopDataAcquisition).setEnabled(true);
 				((MainActivity)getActivity()).onBtnStartSamplingAltro();
@@ -130,7 +132,7 @@ public class FragmentTest extends Fragment implements View.OnClickListener, OnCh
 			/**
 			 * Devo recuperare valore nelle note e salvarlo
 			 */
-			sampling = false;
+			samplingStairs = false; samplingNoStairs = false;
 			String text = ((EditText)getView().findViewById(R.id.notes)).getText().toString();
 			
 			((MainActivity)getActivity()).saveNotesForTestData(text);
@@ -181,7 +183,7 @@ private void storePreferences() {
 		else if (checkedId == R.id.radioStairsDown) {
 			currentStairMode = MainActivity.SAMPLING_TYPE_STAIR_DOWNSTAIRS;
 		}
-		if (AccelerometerStoreListener.settings != null) {
+		if (AccelerometerStoreListener.settings != null && samplingStairs) {
 			AccelerometerStoreListener.settings.setAction(currentStairMode);
 		}
 	}

@@ -99,7 +99,9 @@ public class DbAdapter {
 
         public void getNewTrunkIdAccelerometer() {
             this.trunkAccelerometer=1;
-            if (this.getCount(false)>0) this.trunkAccelerometer=(int)database.compileStatement("SELECT MAX(trunk)+1 FROM " + DATABASE_TABLE).simpleQueryForLong();
+            if (this.getCount(false)>0) { 
+            	this.trunkAccelerometer=(int)database.compileStatement("SELECT MAX(trunk)+1 FROM " + DATABASE_TABLE).simpleQueryForLong();
+            }
         }
         
         public void getNewTrunkIdLinear() {
@@ -124,7 +126,6 @@ public class DbAdapter {
         	return (int)database.compileStatement("SELECT MAX(trunk) FROM " + DATABASE_TABLE_LINEAR).simpleQueryForLong();
         }
 
-        //create a contact
         public void saveSampleAccelerometer(long timestamp, float x, float y, float z, 
         		float xRotation, float yRotation, float zRotation, 
         		String sex, String age, String height, String shoes,
