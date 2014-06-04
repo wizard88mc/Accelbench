@@ -17,10 +17,7 @@ import org.unipd.nbeghin.utils.DbAdapter;
 public class AccelerometerStoreListener implements SensorEventListener {
 	private boolean				mInitialized			= false;
 	public static DbAdapter		db;
-	private float				mLastX, mLastY, mLastZ;
-	private float 				mLastXLinear, mLastYLinear, mLastZLinear;
 	private float[]				lastValuesRotationVector;
-	private double 				lastValueTimestamp = 0;
 	public static Settings 		settings = null;
 	private static final String	UNDEFINED_ACTION		= "UNDEFINED";
 	private boolean isTestData = false;
@@ -52,15 +49,11 @@ public class AccelerometerStoreListener implements SensorEventListener {
 			float y = event.values[1];
 			float z = event.values[2];
 			
-			// update last value for next onSensorChanged
-			mLastX = x;
-			mLastY = y;
-			mLastZ = z;
 			if (lastValuesRotationVector != null) {
 				db.saveSampleAccelerometer(event.timestamp, x, y, z, 
 						lastValuesRotationVector[0], lastValuesRotationVector[1], lastValuesRotationVector[2], 
 					settings.getSex(), settings.getAge(), settings.getHeight(), 
-					settings.getShoes(), settings.getPosition(), settings.getAction(), settings.getTestData());
+					settings.getShoes(), settings.getMode(), settings.getAction(), settings.getTestData());
 			}
 		}
 		else if (event.sensor == SamplingStoreService.mLinearAcceleration) {
@@ -68,14 +61,11 @@ public class AccelerometerStoreListener implements SensorEventListener {
 			float y = event.values[1];
 			float z = event.values[2];
 			
-			mLastXLinear = x;
-			mLastYLinear = y;
-			mLastZLinear = z;
 			if (lastValuesRotationVector != null) {
 				db.saveSampleLinearAcceleration(event.timestamp, x, y, z, 
 						lastValuesRotationVector[0], lastValuesRotationVector[1], lastValuesRotationVector[2], 
 					settings.getSex(), settings.getAge(), settings.getHeight(), 
-					settings.getShoes(), settings.getPosition(), settings.getAction(), settings.getTestData());
+					settings.getShoes(), settings.getMode(), settings.getAction(), settings.getTestData());
 			}
 		}
 		else if (event.sensor == SamplingStoreService.mRotationVector) {

@@ -117,8 +117,9 @@ public class FragmentTest extends Fragment implements View.OnClickListener, OnCh
 			
 			AccelerometerStoreListener.settings.setAction(MainActivity.SAMPLING_TYPE_NON_STAIR);
 			
-			if (!samplingNoStairs) {
+			if (!samplingNoStairs && !samplingStairs) {
 				samplingNoStairs = true;
+				samplingStairs = false;
 				enableOrDisableInput(false);
 				getView().findViewById(R.id.btnStopDataAcquisition).setEnabled(true);
 				((MainActivity)getActivity()).onBtnStartSamplingAltro();
@@ -150,7 +151,7 @@ private void storePreferences() {
 		String age = ((Spinner) getView().findViewById(R.id.age)).getSelectedItem().toString();
 		String height = ((Spinner) getView().findViewById(R.id.height)).getSelectedItem().toString();
 		String shoes = ((Spinner) getView().findViewById(R.id.shoes_type)).getSelectedItem().toString();
-		String location = ((Spinner) getView().findViewById(R.id.accelerometer_position)).getSelectedItem().toString();
+		String mode = ((Spinner) getView().findViewById(R.id.accelerometer_position)).getSelectedItem().toString();
 		
 		/**
 		 * Storing preferences
@@ -159,10 +160,10 @@ private void storePreferences() {
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putString("SEX", sex); editor.putString("AGE", age);
 		editor.putString("HEIGHT", height); editor.putString("SHOES", shoes);
-		editor.putString("LOCATION", location);
+		editor.putString("LOCATION", mode);
 		editor.commit();
 		
-		AccelerometerStoreListener.settings = new Settings(sex, age, height, shoes, location, 1);
+		AccelerometerStoreListener.settings = new Settings(sex, age, height, shoes, mode, 1);
 	}
 
 	private void enableOrDisableInput(boolean enabled) {

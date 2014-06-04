@@ -8,7 +8,7 @@ public class Settings {
 	private String sex;
 	private String age;
 	private String height;
-	private String position;
+	private String mode;
 	private String shoes;
 	private String action;
 	private int testData = 0;
@@ -28,9 +28,9 @@ public class Settings {
 	}
 	
 	public Settings(String sex, String age, String height, String shoes, 
-			String position, int testData) {
+			String mode, int testData) {
 		this.sex = sex; this.age = age; this.height = height; this.shoes = associations.get(shoes);
-		this.position = associations.get(position); this.testData = testData;
+		this.mode = associations.get(mode); this.testData = testData;
 	}
 	
 	public void setAction(String action) {
@@ -49,8 +49,8 @@ public class Settings {
 		return this.height;
 	}
 	
-	public String getPosition() {
-		return this.position;
+	public String getMode() {
+		return this.mode;
 	}
 	
 	public String getShoes() {

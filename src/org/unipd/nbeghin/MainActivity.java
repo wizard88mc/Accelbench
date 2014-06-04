@@ -67,6 +67,7 @@ public class MainActivity extends FragmentActivity {
     public void onBtnStartSampling() {
         
         startSamplingService();
+        samplingEnabled = true;
     }
 
     public void onBtnStopSampling() {
@@ -89,6 +90,7 @@ public class MainActivity extends FragmentActivity {
             Log.e(MainActivity.AppName, "Unable to stop background store");
             e.printStackTrace();
         }
+        samplingEnabled = false;
     }
 
     public void onBtnClearDb(MenuItem v) {

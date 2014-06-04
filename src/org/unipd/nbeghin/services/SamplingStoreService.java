@@ -90,7 +90,7 @@ public class SamplingStoreService extends IntentService {
     }
 
     public void startAccelerometer() {
-        Log.i(MainActivity.AppName, "Registering accelerometer listener");
+        Log.i(MainActivity.AppName, "Registering accelerometer listener"); 
         accelerometerListener.db.database.beginTransaction();
         mSensorManager.registerListener(accelerometerListener, mRotationVector, sensorDelay);
         mSensorManager.registerListener(accelerometerListener, mAccelerometer, sensorDelay); // SensorManager.SENSOR_DELAY_NORMAL
@@ -104,9 +104,10 @@ public class SamplingStoreService extends IntentService {
         mSensorManager.unregisterListener(accelerometerListener, mRotationVector);
         accelerometerListener.db.database.setTransactionSuccessful();
         accelerometerListener.db.database.endTransaction();
+        
     }
     
-    public void stopAcctivity() {
-    	accelerometerListener.closeDb();
+    public void stopActivity() {
+    	//accelerometerListener.closeDb();
     }
 }
